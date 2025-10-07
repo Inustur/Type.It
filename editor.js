@@ -1,32 +1,41 @@
 // Initialize Quill editor
 var quill = new Quill('#editor', { theme: 'snow' });
 
-// Store previous typing timestamp
+// Track last time for typing speed
 let lastTime = Date.now();
 
-// Listen for typing activity
+// Listen for every text input event
 quill.on('text-change', function (delta, oldDelta, source) {
-  if (source === 'user') {
-    const now = Date.now();
-    const speed = now - lastTime; // time gap between keystrokes
-    lastTime = now;
+  if (source !== 'user') return;
 
-    // Get the last typed word
-    const text = quill.getText().trim();
-    const words = text.split(/\s+/);
-    const lastWord = words[words.length - 1] || '';
-    const wordLength = lastWord.length;
+  const now = Date.now();
+  const speed = now - lastTime;
+  lastTime = now;
 
-    // Send data to p5.js (only if the function exists)
-    if (typeof window.addShape === 'function') {
-      window.addShape(speed, wordLength);
+  // Get last inserted character
+  let lastInsert = "";
+  delta.ops.forEach(op => {
+    if (op.insert) {
+      lastInsert += op.insert;
     }
+  });
+
+  if (lastInsert.length === 0) return;
+
+  const char = lastInsert.slice(-1);
+  const isVowel = /[aeiouAEIOU]/.test(char);
+  const isConsonant = /[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]/.test(char);
+  const isNumber = /[0-9]/.test(char);
+  const isPunct = /[.,!?;:'"()]/.test(char);
+  const isEnter = char === '\n';
+
+  if (typeof window.addVisual === "function") {
+    window.addVisual({ char, speed, isVowel, isConsonant, isNumber, isPunct, isEnter });
   }
 });
 
-// Toggle editor + prompt visibility
+// Toggle editor visibility
 document.getElementById('toggle').onclick = () => {
   const container = document.getElementById('editor-container');
-  container.style.display =
-    container.style.display === 'none' ? 'flex' : 'none';
+  container.style.display = container.style.display === 'none' ? 'flex' : 'none';
 };
