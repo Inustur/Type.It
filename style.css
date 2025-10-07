@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #fdfdfd;
+}
+
+#editor-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ccc;
+}
+
+#prompt {
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+#prompt h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: normal;
+  color: #333;
+}
+
+#editor {
+  flex: 1;
+}
+
+#canvas-container {
+  flex: 1;
+  background-color: #000;
+}
+
+#toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  padding: 6px 12px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#toggle:hover {
+  background-color: #444;
+}
