@@ -1,10 +1,10 @@
-// Initialize Quill editor
+//initialize Quill editor
 var quill = new Quill('#editor', { theme: 'snow' });
 
-// Track last time for typing speed
+//tracking last time for typing speed
 let lastTime = Date.now();
 
-// Listen for every text input event
+//listener for text input event
 quill.on('text-change', function (delta, oldDelta, source) {
   if (source !== 'user') return;
 
@@ -12,7 +12,7 @@ quill.on('text-change', function (delta, oldDelta, source) {
   const speed = now - lastTime;
   lastTime = now;
 
-  // Get last inserted character
+  //get last inserted character
   let lastInsert = "";
   delta.ops.forEach(op => {
     if (op.insert) {
@@ -34,7 +34,7 @@ quill.on('text-change', function (delta, oldDelta, source) {
   }
 });
 
-// Toggle editor visibility
+//toggle editor visibility
 document.getElementById('toggle').onclick = () => {
   const container = document.getElementById('editor-container');
   container.style.display = container.style.display === 'none' ? 'flex' : 'none';

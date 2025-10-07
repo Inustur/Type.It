@@ -7,6 +7,7 @@ function setup() {
   noStroke();
 }
 
+//draw method
 function draw() {
   background(0, 0, 10, 10);
 
@@ -49,29 +50,70 @@ function draw() {
   visuals = visuals.filter(v => v.alpha > 0);
 }
 
+//method to clasify and translate typing into visual.
 function addVisual(data) {
   const { char, speed, isVowel, isConsonant, isNumber, isPunct, isEnter } = data;
 
   let hue = map(speed, 20, 800, 0, 300, true);
   let baseX = random(width);
-  let baseY = height;
+  let baseY = height; //default for “typing rises up” visuals
   let size = random(20, 100);
   let alpha = 255;
 
   if (isVowel) {
-    visuals.push({ type: 'string', x: baseX, y: baseY, len: random(40, 120), h: hue, alpha, speed: 1 });
+    visuals.push({
+      type: 'string',
+      x: baseX,
+      y: baseY,
+      len: random(40, 120),
+      h: hue,
+      alpha,
+      speed: 1
+    });
   } 
   else if (isConsonant) {
-    visuals.push({ type: 'circle', x: baseX, y: baseY, size, h: hue, alpha, speed: 1.5 });
+    visuals.push({
+      type: 'circle',
+      x: baseX,
+      y: baseY,
+      size,
+      h: hue,
+      alpha,
+      speed: 1.5
+    });
   } 
   else if (isNumber) {
-    visuals.push({ type: 'square', x: baseX, y: baseY, size: size / 2, h: hue + 50, alpha, speed: 1.2 });
+    visuals.push({
+      type: 'square',
+      x: baseX,
+      y: baseY,
+      size: size / 2,
+      h: hue + 50,
+      alpha,
+      speed: 1.2
+    });
   } 
   else if (isPunct) {
-    visuals.push({ type: 'burst', x: baseX, y: baseY, size: size / 2, h: hue + 100, alpha, speed: 0 });
+    //punctuation burst — anywhere on screen
+    visuals.push({
+      type: 'burst',
+      x: random(width),      //random x across canvas
+      y: random(height),     //random y
+      size: size / 2,
+      h: hue + 100,
+      alpha,
+      speed: 0
+    });
   } 
   else if (isEnter) {
-    visuals.push({ type: 'wave', x: width / 2, y: height / 2, size: random(100, 300), h: hue, alpha, speed: 0 });
+    visuals.push({
+      type: 'wave',
+      x: width / 2,
+      y: height / 2,
+      size: random(100, 300),
+      h: hue,
+      alpha,
+      speed: 0
+    });
   }
 }
-
