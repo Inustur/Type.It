@@ -32,9 +32,12 @@ function draw() {
       rect(v.x, v.y, v.size, v.size);
     } 
     else if (v.type === 'burst') {
-      fill(v.h, 100, 100, v.alpha);
+      noFill();
+      stroke(v.h, 100, 100, v.alpha);
+      strokeWeight(0.1);
       ellipse(v.x, v.y, v.size + sin(frameCount * 0.5) * 10);
     } 
+
     else if (v.type === 'wave') {
       noFill();
       stroke(v.h, 80, 100, v.alpha);
@@ -121,7 +124,7 @@ function drawSparks() {
 
 //method to translate typing word into visual display
 function addVisual(data) {
-  const { char, speed, isVowel, isConsonant, isNumber, isPunct, isEnter } = data;
+  const { char, speed, isVowel, isConsonant, isNumber, isPunct, isEnter, isSpace } = data;
 
   let hue = map(speed, 20, 800, 0, 300, true);
   let baseX = random(width);
@@ -167,7 +170,7 @@ function addVisual(data) {
   else if (isConsonant) type = 'circle';
   else if (isNumber) type = 'square';
   else if (isPunct) type = 'burst';
-  else if (isEnter) type = 'wave';
+  else if (isEnter || isSpace) type = 'wave';
 
   //create object based on type
   if (type === 'string') {
@@ -230,4 +233,8 @@ function addVisual(data) {
       dy: 0
     });
   }
+}
+
+function windowResized() {
+  resizeCanvas(canvasContainer.clientWidth, canvasContainer.clientHeight);
 }

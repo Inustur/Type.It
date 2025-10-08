@@ -4,6 +4,11 @@ var quill = new Quill('#editor', { theme: 'snow' });
 //tracking last time for typing speed
 let lastTime = Date.now();
 
+const toggleBtn = document.getElementById('toggle');
+const editorContainer = document.getElementById('editor-container');
+const canvasContainer = document.getElementById('canvas-container');
+let editorVisible = true;
+
 //listener for text input event
 quill.on('text-change', function (delta, oldDelta, source) {
   if (source !== 'user') return;
@@ -27,15 +32,27 @@ quill.on('text-change', function (delta, oldDelta, source) {
   const isConsonant = /[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]/.test(char);
   const isNumber = /[0-9]/.test(char);
   const isPunct = /[.,!?;:'"()]/.test(char);
+  const isSpace = char === ' ';
   const isEnter = char === '\n';
 
   if (typeof window.addVisual === "function") {
-    window.addVisual({ char, speed, isVowel, isConsonant, isNumber, isPunct, isEnter });
+    window.addVisual({ char, speed, isVowel, isConsonant, isNumber, isPunct, isEnter, isSpace });
   }
 });
 
 //toggle editor visibility
-document.getElementById('toggle').onclick = () => {
-  const container = document.getElementById('editor-container');
-  container.style.display = container.style.display === 'none' ? 'flex' : 'none';
+toggleBtn.onclick = () => {
+  editorVisible = !editorVisible;
+
+  if (editorVisible) {
+    //show editor again
+    editorContainer.style.display = 'flex';
+    canvasContainer.classList.remove('fullscreen');
+    resizeCanvas(windowWidth / 2, windowHeight);
+  } else {
+    //hide editor and expand canvas
+    editorContainer.style.display = 'none';
+    canvasContainer.classList.add('fullscreen');
+    resizeCanvas(windowWidth, windowHeight);
+  }
 };

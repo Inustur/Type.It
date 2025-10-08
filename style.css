@@ -4,6 +4,7 @@ body {
   height: 100vh;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   background-color: #f9f9f9;
+  overflow: hidden;
 }
 
 #editor-container {
@@ -12,6 +13,19 @@ body {
   display: flex;
   flex-direction: column;
   border-right: 1px solid #ccc;
+  transition: all 0.4s ease;
+}
+
+#canvas-container {
+  flex: 1;
+  transition: all 0.4s ease;
+}
+
+/* Fullscreen mode */
+.fullscreen {
+  flex: 1 1 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 #prompt {
