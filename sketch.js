@@ -1,4 +1,7 @@
 let visuals = [];
+let ripples = [];
+let sparks = [];
+let energy = 0;
 
 function setup() {
   let canvas = createCanvas(windowWidth / 2, windowHeight);
@@ -10,6 +13,10 @@ function setup() {
 //draw function
 function draw() {
   background(0, 0, 10, 10);
+
+  //draw ripple & sparks animations
+  drawRipples();
+  drawSparks();
 
   for (let v of visuals) {
     if (v.type === 'circle') {
@@ -49,7 +56,68 @@ function draw() {
   }
 
   visuals = visuals.filter(v => v.alpha > 0);
+  drawEnergyBar();
 }
+
+//method to add circular ripple effect 
+function addRipple(x, y, hue) {
+  ripples.push({
+    x: x,
+    y: y,
+    r: 0,
+    alpha: 255,
+    h: hue
+  });
+}
+
+//method to draw dripples
+function drawRipples() {
+  for (let r of ripples) {
+    noFill();
+    stroke(r.h, 80, 100, r.alpha);
+    ellipse(r.x, r.y, r.r);
+    r.r += 2.5; // expansion rate
+    r.alpha -= 5; // fade
+  }
+  ripples = ripples.filter(r => r.alpha > 0);
+}
+
+//method to display energy bar = matchin with typing intensity
+function drawEnergyBar() {
+  noStroke();
+  fill(200, 80, 100, 80);
+  rect(0, height - 10, map(energy, 0, 100, 0, width), 10);
+  energy = max(0, energy - 0.3); // decay slowly
+}
+
+//method to add sparks
+function addSparks(x, y, hue, count = 5) {
+  for (let i = 0; i < count; i++) {
+    sparks.push({
+      x: x,
+      y: y,
+      dx: random(-2, 2),
+      dy: random(-2, 2),
+      alpha: 255,
+      size: random(3, 6),
+      h: hue
+    });
+  }
+}
+
+//method to display spark when typing is fast enough
+function drawSparks() {
+  for (let s of sparks) {
+    noStroke();
+    fill(s.h, 90, 100, s.alpha);
+    ellipse(s.x, s.y, s.size);
+    s.x += s.dx;
+    s.y += s.dy;
+    s.alpha -= 6; // fade
+  }
+  sparks = sparks.filter(s => s.alpha > 0);
+}
+
 
 //method to translate typing word into visual display
 function addVisual(data) {
@@ -60,6 +128,17 @@ function addVisual(data) {
   let baseY = random(height);
   let size = random(20, 100);
   let alpha = 255;
+
+  //add ripple (centered or random)
+  addRipple(random(width), random(height), hue);
+
+  //charge up energy bar
+  energy = min(100, energy + 5);
+
+  //trigger combo sparks for fast typing
+  if (speed < 120) {
+    addSparks(random(width), random(height), hue, random(4, 8));
+  }
 
   //pick a random direction vector
   const directions = [
