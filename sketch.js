@@ -4,7 +4,7 @@ let sparks = [];
 let energy = 0;
 
 function setup() {
-  let canvas = createCanvas(windowWidth / 2, windowHeight);
+  let canvas = createCanvas(windowWidth / 1.35, windowHeight); //initial canvas at 65%
   canvas.parent('canvas-container');
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();

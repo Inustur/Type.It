@@ -9,7 +9,7 @@ body {
 
 #editor-container {
   margin-top: 5vh;
-  flex: 1;
+  flex: 0 0 35%; /*2/5 of the screen size*/
   display: flex;
   flex-direction: column;
   border-right: 1px solid #ccc;
@@ -17,7 +17,8 @@ body {
 }
 
 #canvas-container {
-  flex: 1;
+  background-color: #000;
+  flex: 0 0 65%;
   transition: all 0.4s ease;
 }
 
@@ -36,18 +37,25 @@ body {
 
 #prompt h2 {
   margin: 0;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: normal;
   color: #333;
 }
 
-#editor {
-  flex: 1;
+#prompt ul {
+  margin: 0;
+  padding-left: 20px;
 }
 
-#canvas-container {
+#prompt li {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #444;
+  list-style-type: dot; /* replaces the default dot with a dash */
+}
+
+#editor {
   flex: 1;
-  background-color: #000;
 }
 
 #toggle {
@@ -65,4 +73,10 @@ body {
 
 #toggle:hover {
   background-color: #444;
+}
+
+.highlight{
+  font-weight: bold;
+  color: rgb(147, 135, 22);
+  font-size: 18px;
 }

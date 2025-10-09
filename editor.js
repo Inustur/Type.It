@@ -1,5 +1,8 @@
 //initialize Quill editor
-var quill = new Quill('#editor', { theme: 'snow' });
+var quill = new Quill('#editor', { 
+  theme: 'snow',
+  placeholder: 'Start typing here!' 
+});
 
 //tracking last time for typing speed
 let lastTime = Date.now();
@@ -48,7 +51,7 @@ toggleBtn.onclick = () => {
     //show editor again
     editorContainer.style.display = 'flex';
     canvasContainer.classList.remove('fullscreen');
-    resizeCanvas(windowWidth / 2, windowHeight);
+    resizeCanvas(windowWidth / 1.35, windowHeight); //ensure resize working properly at 35-65
   } else {
     //hide editor and expand canvas
     editorContainer.style.display = 'none';
