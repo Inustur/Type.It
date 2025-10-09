@@ -20,17 +20,34 @@ function draw() {
 
   for (let v of visuals) {
     if (v.type === 'circle') {
-      fill(v.h, 80, 90, v.alpha);
+      if (v.isOutlined) {
+        noFill();
+        stroke(v.h, 80, 90, v.alpha);
+        strokeWeight(2);
+      } else {
+        noStroke();
+        fill(v.h, 80, 90, v.alpha);
+      }
       ellipse(v.x, v.y, v.size);
     } 
+
     else if (v.type === 'string') {
       stroke(v.h, 80, 100, v.alpha);
       line(v.x, v.y, v.x + v.len * sin(frameCount * 0.05), v.y - v.len);
-    } 
+    }
+
     else if (v.type === 'square') {
-      fill(v.h, 60, 90, v.alpha);
+      if (v.isOutlined) {
+        noFill();
+        stroke(v.h, 60, 90, v.alpha);
+        strokeWeight(2);
+      } else {
+        noStroke();
+        fill(v.h, 60, 90, v.alpha);
+      }
       rect(v.x, v.y, v.size, v.size);
-    } 
+    }
+
     else if (v.type === 'burst') {
       noFill();
       stroke(v.h, 100, 100, v.alpha);
@@ -194,7 +211,8 @@ function addVisual(data) {
       h: hue,
       alpha,
       dx: dir.dx * moveSpeed,
-      dy: dir.dy * moveSpeed
+      dy: dir.dy * moveSpeed,
+      isOutlined: random() < 0.3 //30% chance to be outline only
     });
   } 
   else if (type === 'square') {
@@ -206,7 +224,8 @@ function addVisual(data) {
       h: hue + 50,
       alpha,
       dx: dir.dx * moveSpeed,
-      dy: dir.dy * moveSpeed
+      dy: dir.dy * moveSpeed,
+      isOutlined: random() < 0.3 // 30% chance to be outline only
     });
   } 
   else if (type === 'burst') {
